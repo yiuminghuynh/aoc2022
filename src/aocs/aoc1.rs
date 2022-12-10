@@ -1,25 +1,13 @@
+use crate::utils::read_file;
 use std::error;
 
-use std::fs::File;
-use std::io::{self, BufRead};
-
 pub(crate) fn run_aoc() -> Result<(i32, i32), Box<dyn error::Error>> {
-    let lines = read_file()?;
+    let lines = read_file("resource/aoc1/input.txt")?;
     let results = process_lines(lines)?;
     let max_calorie = get_top_calorie(results.clone());
     let top_three_calories = get_top_three_calorie_total(results);
 
     Ok((max_calorie, top_three_calories))
-}
-
-fn read_file() -> Result<Vec<String>, Box<dyn error::Error>> {
-    let mut result = vec![];
-    let file = File::open("resource/aoc1/input.txt")?;
-    let lines = io::BufReader::new(file).lines();
-    for line in lines {
-        result.push(line?);
-    }
-    Ok(result)
 }
 
 fn process_lines(lines: Vec<String>) -> Result<Vec<i32>, Box<dyn error::Error>> {
@@ -58,14 +46,6 @@ fn get_top_three_calorie_total(results: Vec<i32>) -> i32 {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn test_read_file() {
-        let results = read_file();
-        assert!(results.is_ok());
-        let results = results.unwrap();
-        assert!(results.len() > 0);
-    }
 
     #[test]
     fn test_process_lines() {
