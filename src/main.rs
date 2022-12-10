@@ -1,0 +1,3 @@
+mod aocs;
+
+fn main() {}
